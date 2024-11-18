@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-Time Crime Hotspot Map</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+</head>
+<body>
+    <h1>Real-Time Crime Hotspot Map</h1>
+    <div id="map" style="width: 100%; height: 600px;"></div>
+
+    <script>
+        // Initialize map
+        const map = L.map('map').setView([22.487320,88.393433],14); // Default to Kolkata
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+
+        let circle, marker;
+
+        // Fetch live coordinates and update the map
+        async function updateMap() {
+            try {
+                const response = await fetch('/get-coordinates');
+                const data = await response.json();
+
+                if (data.latitude && data.longitude) {
+                    const { latitude, longitude } = data;
+
+                    // Clear previous layers
+                    if (circle) map.removeLayer(circle);
+                    if (marker) map.removeLayer(marker);
+
+                    // Add new layers
+                    circle = L.circle([latitude, longitude], {
+                        radius: 100,
+                        color: 'red',
+                        fillColor: 'red',
+                        fillOpacity: 0.3,
+                    }).addTo(map);
+
+                    marker = L.marker([latitude, longitude]).addTo(map)
+                        .bindPopup(`Lat: ${latitude}, Lon: ${longitude}`)
+                        .openPopup();
+
+                    // Pan the map to the new location
+                    map.setView([latitude, longitude], 14);
+                }
+            } catch (error) {
+                console.error('Error fetching live location:', error);
+            }
+        }
+
+        // Update the map every 5 seconds
+        setInterval(updateMap, 5000);
+        updateMap(); // Initial load
+    </script>
+</body>
+</html>
