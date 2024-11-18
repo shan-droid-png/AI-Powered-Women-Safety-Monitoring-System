@@ -1,0 +1,229 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Feed</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #videoContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #buttonsContainer {
+            margin: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #videoFeed {
+            border: 1px solid black;
+            width: 80%;
+            height: auto;
+            display: none;
+        }
+        #notificationsPanel {
+            width: 80%;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .notification {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid red;
+            color: red;
+            font-weight: bold;
+            background-color: #ffe6e6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="videoContainer">
+        <h1>Live Video Feed</h1>
+        <div id="buttonsContainer">
+            <button id="startButton" class="btn">Start Video Feed</button>
+            <button id="stopButton" class="btn">Stop Video Feed</button>
+        </div>
+        <div id="videoWrapper">
+            <img id="videoFeed" src="" alt="Live Video Feed">
+        </div>
+    </div>
+    <div id="notificationsPanel">
+        <h2>Notifications</h2>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const notificationsPanel = document.getElementById('notificationsPanel');
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            document.getElementById('videoFeed').src = "/video_feed";
+            document.getElementById('videoFeed').style.display = 'block';
+            fetch('/start_video_feed');  // Request to start video feed
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            document.getElementById('videoFeed').src = "";
+            document.getElementById('videoFeed').style.display = 'none';
+            fetch('/stop_video_feed');  // Request to stop video feed
+        });
+
+        socket.on('notification', function(data) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerText = data.message;
+            notificationsPanel.appendChild(notification);
+        });
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Feed</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #container {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+        #videoContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 2;
+        }
+        #buttonsContainer {
+            margin: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        #videoFeed {
+            border: 1px solid black;
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+        #notificationsPanel {
+            width: 30%;
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-height: 80vh;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .notification {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid red;
+            color: red;
+            font-weight: bold;
+            background-color: #ffe6e6;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="videoContainer">
+            <h1>Live Video Feed</h1>
+            <div id="buttonsContainer">
+                <button id="startButton" class="btn">Start Video Feed</button>
+                <button id="stopButton" class="btn">Stop Video Feed</button>
+            </div>
+            <div id="videoWrapper">
+                <img id="videoFeed" src="" alt="Live Video Feed">
+            </div>
+        </div>
+        <div id="notificationsPanel">
+            <h2>Notifications</h2>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+        const notificationsPanel = document.getElementById('notificationsPanel');
+
+        document.getElementById('startButton').addEventListener('click', () => {
+            document.getElementById('videoFeed').src = "/video_feed";
+            document.getElementById('videoFeed').style.display = 'block';
+            fetch('/start_video_feed');  // Request to start video feed
+        });
+
+        document.getElementById('stopButton').addEventListener('click', () => {
+            document.getElementById('videoFeed').src = "";
+            document.getElementById('videoFeed').style.display = 'none';
+            fetch('/stop_video_feed');  // Request to stop video feed
+        });
+
+        socket.on('notification', function(data) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerText = data.message;
+            notificationsPanel.appendChild(notification);
+        });
+    </script>
+</body>
+</html>
+
