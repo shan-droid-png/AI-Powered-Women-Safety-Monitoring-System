@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Record and Upload Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        video {
+            width: 80%;
+            max-width: 600px;
+            border: 3px solid #333;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+        }
+
+        #startRecording {
+            background-color: #28a745;
+        }
+
+        #stopRecording {
+            background-color: #dc3545;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Record a Video</h1>
+    <video id="video" autoplay></video>
+    <button id="startRecording">Start Recording</button>
+    <button id="stopRecording" disabled>Stop Recording</button>
+
+    <script>
+        let mediaRecorder;
+        let videoChunks = [];
+        const video = document.getElementById('video');
+        const startButton = document.getElementById('startRecording');
+        const stopButton = document.getElementById('stopRecording');
+
+        // Access webcam
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                video.srcObject = stream;
+                mediaRecorder = new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = event => videoChunks.push(event.data);
+
+                mediaRecorder.onstop = () => {
+                    const blob = new Blob(videoChunks, { type: 'video/webm' });
+                    videoChunks = []; // Clear chunks for the next recording
+
+                    const formData = new FormData();
+                    formData.append('video', blob, 'recorded_video.webm');
+
+                    // Upload to server
+                    fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => alert(data.message))
+                        .catch(error => console.error('Error:', error));
+                };
+            })
+            .catch(error => console.error('Error accessing webcam:', error));
+
+        // Start recording
+        startButton.addEventListener('click', () => {
+            videoChunks = []; // Reset chunks
+            mediaRecorder.start();
+            startButton.disabled = true;
+            stopButton.disabled = false;
+        });
+
+        // Stop recording
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        });
+    </script>
+</body>
+</html>
