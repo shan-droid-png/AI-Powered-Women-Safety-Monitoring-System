@@ -1,8 +1,0 @@
-location,latitude,longitude,timestamp,crime_type
-Mumbai,19.0760,72.8777,2024-11-16 10:00:00,Assault
-Delhi,28.7041,77.1025,2024-11-16 11:00:00,Theft
-Kolkata,22.5726,88.3639,2024-11-16 09:30:00,Harassment
-Bengaluru,12.9716,77.5946,2024-11-16 10:15:00,Robbery
-Hyderabad,17.3850,78.4867,2024-11-16 09:45:00,Harassment
-Chennai,13.0827,80.2707,2024-11-16 10:05:00,Assault
-Pune,18.5204,73.8567,2024-11-16 10:20:00,Theft
