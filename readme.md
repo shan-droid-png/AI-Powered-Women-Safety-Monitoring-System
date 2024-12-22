@@ -132,8 +132,6 @@ If you'd like to contribute to this project, feel free to fork the repository an
   
 - Integrate real-time communication with police officers for quicker response times.
 
-## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Note: This system is designed for ethical use in protecting women's safety and should be deployed with privacy and consent considerations in mind.
+## Note
+This system is designed for ethical use in protecting women's safety and should be deployed with privacy and consent considerations in mind.
