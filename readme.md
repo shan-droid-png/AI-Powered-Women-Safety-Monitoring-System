@@ -14,7 +14,6 @@ This Women's Safety Monitoring System leverages AI and CCTV cameras to detect po
 
 - GIS Mapping: Police can track the exact location of the incident in real-time on a GIS map.
 
-- Historical Data: Previous crime data is stored, and the system can detect if a person involved in a current incident matches a criminal record.
 
 ## Technologies Used
 
@@ -107,9 +106,9 @@ The model has been trained on various datasets containing images and videos of p
 
 - Gender recognition
   
-- Identifying distress signals from body language and hand gestures
+- Identifying distress signals from hand gestures
   
-- Recognizing forced actions (e.g., gagging, physical restraint)
+- Recognizing forced actions 
 
 The model uses a combination of deep learning and computer vision to analyze these factors and make real-time decisions.
 
