@@ -1,4 +1,4 @@
-# Women's Safety Monitoring System Using CCTV
+# AI Powered Women Safety Monitoring System
 
 ## Overview
 
@@ -134,3 +134,4 @@ If you'd like to contribute to this project, feel free to fork the repository an
 
 ## Note
 This system is designed for ethical use in protecting women's safety and should be deployed with privacy and consent considerations in mind.
+
